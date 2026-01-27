@@ -1,0 +1,8 @@
+# local build artifacts
+/dist/
+
+# local venv used for packaging skills
+/.venv*/
+
+# macOS
+.DS_Store
