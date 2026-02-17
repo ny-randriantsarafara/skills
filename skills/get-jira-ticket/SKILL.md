@@ -1,9 +1,9 @@
 ---
-name: acli-jira-ticket
+name: get-jira-ticket
 description: Fetch and inspect a Jira ticket by issue key (e.g., ES-1234) using Atlassian CLI (acli). Use when the user asks to “get/view/show ticket ES-XXXX”, needs key fields (status, assignee, summary, description), or wants JSON output for a specific issue.
 ---
 
-# Acli Jira Ticket
+# Get Jira Ticket
 
 Get a Jira work item by its issue key (e.g., `ES-1234`) using `acli`.
 
@@ -45,17 +45,17 @@ acli jira workitem view ES-1234 --fields "key,summary,status,priority,assignee,d
 Use the bundled script when you want consistent defaults + key validation.
 
 ```bash
-skills/public/acli-jira-ticket/scripts/get_ticket.sh ES-1234
+skills/public/get-jira-ticket/scripts/get_ticket.sh ES-1234
 ```
 
 JSON mode:
 
 ```bash
-JSON=1 skills/public/acli-jira-ticket/scripts/get_ticket.sh ES-1234
+JSON=1 skills/public/get-jira-ticket/scripts/get_ticket.sh ES-1234
 ```
 
 Override fields:
 
 ```bash
-FIELDS="key,summary,status,assignee" skills/public/acli-jira-ticket/scripts/get_ticket.sh ES-1234
+FIELDS="key,summary,status,assignee" skills/public/get-jira-ticket/scripts/get_ticket.sh ES-1234
 ```
