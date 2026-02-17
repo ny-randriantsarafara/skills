@@ -1,0 +1,52 @@
+schemaVersion: "1.0"
+id: get-jira-ticket
+displayName: Get Jira Ticket
+description: Fetch and inspect Jira issues by key using Atlassian CLI with predictable field selection and optional JSON output.
+triggers:
+  - jira ticket lookup
+  - show issue ES-1234
+  - fetch jira issue
+  - ticket status assignee summary
+instructions:
+  file: prompts/instructions.md
+commands:
+  - name: quick-view
+    description: Show key operational fields for a Jira issue.
+    run: acli jira workitem view <KEY> --fields "key,summary,status,priority,assignee,updated"
+  - name: full-view
+    description: Show all fields for a Jira issue.
+    run: acli jira workitem view <KEY> --fields "*all"
+  - name: json-view
+    description: Return JSON for automation workflows.
+    run: acli jira workitem view <KEY> --fields "key,summary,status,priority,assignee,description" --json
+  - name: script-default
+    description: Use bundled script with validation and default fields.
+    run: core/skills/get-jira-ticket/scripts/get_ticket.sh <KEY>
+resources:
+  scripts:
+    - scripts/get_ticket.sh
+  references: []
+  assets: []
+capabilities:
+  - shell
+  - jira
+constraints:
+  approvalPolicy: standard
+  networkRequired: true
+  requiredBinaries:
+    - acli
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Native skill auto-triggering is limited.
+      - Requires manual execution of shell commands.

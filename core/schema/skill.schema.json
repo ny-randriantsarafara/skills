@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/skill.schema.json",
+  "title": "Canonical Skill",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "displayName",
+    "description",
+    "triggers",
+    "instructions",
+    "commands",
+    "resources",
+    "capabilities",
+    "constraints",
+    "adapterHints"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "instructions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "run"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "run": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scripts", "references", "assets"],
+      "properties": {
+        "scripts": { "type": "array", "items": { "type": "string" } },
+        "references": { "type": "array", "items": { "type": "string" } },
+        "assets": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["shell", "git", "http", "notion", "gh", "jira", "node", "analysis"]
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvalPolicy", "networkRequired", "requiredBinaries"],
+      "properties": {
+        "approvalPolicy": { "type": "string", "minLength": 1 },
+        "networkRequired": { "type": "boolean" },
+        "requiredBinaries": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "adapterHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codex", "claude", "cursor", "copilot"],
+      "properties": {
+        "codex": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tier", "unsupportedFeatures"],
+          "properties": {
+            "tier": { "type": "string", "enum": ["tier1", "tier2"] },
+            "unsupportedFeatures": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "claude": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tier", "unsupportedFeatures"],
+          "properties": {
+            "tier": { "type": "string", "enum": ["tier1", "tier2"] },
+            "unsupportedFeatures": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "cursor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tier", "unsupportedFeatures"],
+          "properties": {
+            "tier": { "type": "string", "enum": ["tier1", "tier2"] },
+            "unsupportedFeatures": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "copilot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tier", "unsupportedFeatures"],
+          "properties": {
+            "tier": { "type": "string", "enum": ["tier1", "tier2"] },
+            "unsupportedFeatures": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

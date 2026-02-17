@@ -1,0 +1,37 @@
+schemaVersion: "1.0"
+id: review-code
+displayName: Review Code
+description: Senior risk-first code review framework focused on correctness, production safety, maintainability, performance, and missing tests.
+triggers:
+  - code review
+  - pr review
+  - review this diff
+  - find high impact issues
+instructions:
+  file: prompts/instructions.md
+commands: []
+resources:
+  scripts: []
+  references:
+    - references/review-rubric.md
+  assets: []
+capabilities:
+  - analysis
+constraints:
+  approvalPolicy: standard
+  networkRequired: false
+  requiredBinaries: []
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - No first-class skill packaging semantics.

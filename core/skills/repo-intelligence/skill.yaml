@@ -1,0 +1,82 @@
+schemaVersion: "1.0"
+id: repo-intelligence
+displayName: Repo Intelligence
+description: Analyze repositories to generate structured architecture handover packs, dependency maps, onboarding docs, and quality signals.
+triggers:
+  - repository intelligence
+  - architecture handover
+  - map business ownership
+  - service dependency graph
+instructions:
+  file: prompts/instructions.md
+commands:
+  - name: scan
+    description: Produce structured raw extracts for discovered repositories.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh scan --root <PATH>
+  - name: summarize
+    description: Generate handover and onboarding markdown docs.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh summarize --root <PATH> [--repo <NAME>]
+  - name: graph
+    description: Generate org-level service Mermaid graph.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh graph --root <PATH>
+  - name: diff
+    description: Compare two snapshots and report API/dependency/domain/quality changes.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh diff --root <PATH> --base <SNAPSHOT> --head <SNAPSHOT>
+resources:
+  scripts:
+    - scripts/repo-intel.sh
+    - scripts/package.json
+    - scripts/package-lock.json
+    - scripts/tsconfig.json
+    - scripts/src/cli.ts
+    - scripts/src/commands/scan.ts
+    - scripts/src/commands/summarize.ts
+    - scripts/src/commands/graph.ts
+    - scripts/src/commands/diff.ts
+    - scripts/src/extractors/inventory.ts
+    - scripts/src/extractors/routes.ts
+    - scripts/src/extractors/db.ts
+    - scripts/src/extractors/deps.ts
+    - scripts/src/extractors/env.ts
+    - scripts/src/extractors/quality.ts
+    - scripts/src/extractors/domain.ts
+    - scripts/src/lib/arg-utils.ts
+    - scripts/src/lib/contracts.ts
+    - scripts/src/lib/fs-utils.ts
+    - scripts/src/lib/markdown.ts
+    - scripts/src/lib/parsers.ts
+    - scripts/src/lib/text-utils.ts
+    - scripts/src/lib/type-guards.ts
+    - scripts/test/cli.test.ts
+  references:
+    - references/output-contracts.md
+    - references/framework-detection.md
+    - references/domain-term-rules.md
+  assets: []
+capabilities:
+  - shell
+  - node
+  - analysis
+  - git
+constraints:
+  approvalPolicy: standard
+  networkRequired: false
+  requiredBinaries:
+    - node
+    - npm
+    - git
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Long-running multi-command orchestration is less native.
+      - Skill auto-discovery is adapter-driven rather than platform-native.

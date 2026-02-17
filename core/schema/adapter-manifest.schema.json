@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/adapter-manifest.schema.json",
+  "title": "Skill Adapter Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tool", "skillId", "tier", "generatedFiles", "unsupportedFeatures", "mappingNotes"],
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": ["codex", "claude", "cursor", "copilot"]
+    },
+    "skillId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["tier1", "tier2"]
+    },
+    "generatedFiles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unsupportedFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mappingNotes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

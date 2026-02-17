@@ -1,0 +1,52 @@
+schemaVersion: "1.0"
+id: gh-review-assistant
+displayName: GitHub Review Assistant
+description: Review pull requests with a risk-first workflow using gh, collect deterministic PR context, and draft review feedback before publishing.
+triggers:
+  - review github pr
+  - inspect pull request checks
+  - draft pr review comments
+  - risk-first review
+instructions:
+  file: prompts/instructions.md
+commands:
+  - name: collect-context
+    description: Gather deterministic PR context from GitHub.
+    run: core/skills/gh-review-assistant/scripts/collect_pr_context.sh <PR_NUMBER_OR_URL>
+  - name: publish-comment
+    description: Publish an approved comment on a PR.
+    run: gh pr comment <PR_NUMBER_OR_URL> --body-file <FILE>
+  - name: request-changes
+    description: Submit request-changes review after explicit confirmation.
+    run: gh pr review <PR_NUMBER_OR_URL> --request-changes --body-file <FILE>
+resources:
+  scripts:
+    - scripts/collect_pr_context.sh
+  references:
+    - references/risk-review-checklist.md
+  assets: []
+capabilities:
+  - shell
+  - gh
+  - git
+constraints:
+  approvalPolicy: explicit-confirmation-before-publish
+  networkRequired: true
+  requiredBinaries:
+    - gh
+    - git
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Limited native workflow-state memory between steps.
+      - Manual confirmation gates must be user-driven.
