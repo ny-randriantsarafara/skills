@@ -1,26 +1,42 @@
-# claude-skills
+# llm-agnostic skills
 #
 # Usage:
-#   make                 # installs skills to $(DEST)
-#   make DEST=...        # override destination
-#
-# Default destination for "personal Claude skills" (adjust if your setup differs)
-DEST ?= $(HOME)/.claude/skills
+#   make bootstrap                    # install skillctl deps
+#   make validate                     # validate canonical skills + adapter manifests
+#   make build TOOL=all               # generate adapters
+#   make matrix                       # generate docs/compatibility-matrix.md
+#   make install TOOL=claude DEST=... # install adapters
+#   make sync TOOL=all DEST=...       # build + install + matrix
+#   make doctor                       # check required binaries
 
-.PHONY: all install list clean
+TOOL ?= all
+DEST ?=
 
-all: install
+.PHONY: bootstrap validate build matrix install sync doctor list clean
 
-list:
-	@echo "Skills in repo:"; \
-	ls -1 skills
+bootstrap:
+	@cd tools/skillctl && npm install --no-audit --no-fund
+
+validate:
+	@cd tools/skillctl && node src/cli.mjs validate
+
+build:
+	@cd tools/skillctl && node src/cli.mjs build --tool $(TOOL)
+
+matrix:
+	@cd tools/skillctl && node src/cli.mjs matrix
 
 install:
-	@echo "Installing skills -> $(DEST)";
-	@mkdir -p "$(DEST)";
-	@rsync -a --delete "skills/" "$(DEST)/"
-	@echo "Done. Installed:"; \
-	ls -1 "$(DEST)"
+	@cd tools/skillctl && node src/cli.mjs install --tool $(TOOL) $(if $(DEST),--dest $(DEST),)
+
+sync:
+	@cd tools/skillctl && node src/cli.mjs sync --tool $(TOOL) $(if $(DEST),--dest $(DEST),)
+
+doctor:
+	@cd tools/skillctl && node src/cli.mjs doctor
+
+list:
+	@find core/skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort
 
 clean:
-	@echo "Nothing to clean.";
+	@echo "No destructive cleanup defined."

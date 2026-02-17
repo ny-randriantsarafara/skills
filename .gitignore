@@ -1,5 +1,7 @@
 # local build artifacts
 /dist/
+/adapters/
+/tools/skillctl/node_modules/
 
 # local venv used for packaging skills
 /.venv*/
