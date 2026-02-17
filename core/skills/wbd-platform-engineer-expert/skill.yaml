@@ -1,0 +1,54 @@
+schemaVersion: "1.0"
+id: wbd-platform-engineer-expert
+displayName: WBD Platform Engineer Expert
+description: Implement, debug, and validate technical changes across the WBD platform repositories with explicit cross-repo contract checks.
+triggers:
+  - wbd engineering implementation
+  - debug wbd platform issue
+  - cross repo technical change
+  - wbd incident triage
+instructions:
+  file: prompts/instructions.md
+commands:
+  - name: scan-platform
+    description: Refresh repository intelligence for the WBD workspace.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh scan --root <WBD_ROOT>
+  - name: summarize-platform
+    description: Regenerate architecture and runbook extracts for WBD repositories.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh summarize --root <WBD_ROOT>
+  - name: graph-platform
+    description: Regenerate the WBD service map.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh graph --root <WBD_ROOT>
+resources:
+  scripts: []
+  references:
+    - references/platform-inventory.md
+    - references/engineer-playbook.md
+  assets: []
+capabilities:
+  - analysis
+  - shell
+  - node
+  - git
+constraints:
+  approvalPolicy: standard
+  networkRequired: false
+  requiredBinaries:
+    - node
+    - npm
+    - git
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Multi-repository contract validation requires more explicit manual step prompts.
+      - Long-running issue diagnosis across repos may need user-guided sequencing.

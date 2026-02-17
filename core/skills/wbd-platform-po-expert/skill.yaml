@@ -1,0 +1,53 @@
+schemaVersion: "1.0"
+id: wbd-platform-po-expert
+displayName: WBD Platform PO Expert
+description: Plan and prioritize product work across the WBD platform repositories, define acceptance criteria, and prepare cross-repo rollout plans grounded in repository evidence.
+triggers:
+  - wbd po planning
+  - write wbd prd
+  - cross repo roadmap slicing
+  - define acceptance criteria for wbd feature
+instructions:
+  file: prompts/instructions.md
+commands:
+  - name: scan-platform
+    description: Refresh repository intelligence for the WBD workspace.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh scan --root <WBD_ROOT>
+  - name: summarize-platform
+    description: Generate handover/runbook docs for all WBD repos.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh summarize --root <WBD_ROOT>
+  - name: graph-platform
+    description: Generate org-level service map for the WBD workspace.
+    run: core/skills/repo-intelligence/scripts/repo-intel.sh graph --root <WBD_ROOT>
+resources:
+  scripts: []
+  references:
+    - references/platform-inventory.md
+    - references/po-output-template.md
+  assets: []
+capabilities:
+  - analysis
+  - shell
+  - node
+constraints:
+  approvalPolicy: standard
+  networkRequired: false
+  requiredBinaries:
+    - node
+    - npm
+    - git
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Multi-step planning across several repositories may require tighter manual prompting.
+      - Skill discovery and invocation are adapter-driven rather than platform-native.
