@@ -1,0 +1,40 @@
+schemaVersion: "1.0"
+id: prompt-rewrite-context
+displayName: Prompt Rewrite Context
+description: Rewrite fuzzy implementation requests into structured, execution-safe engineering prompts by extracting intent, repository context, constraints, behavior rules, and acceptance criteria. Use when requests are vague, solution-biased, or missing boundaries; supports local repository paths and remote git URLs for context-aware restructuring.
+triggers:
+  - rewrite this prompt
+  - clarify this ticket
+  - structure this implementation request
+  - make this task executable
+  - convert fuzzy request to engineering prompt
+instructions:
+  file: prompts/instructions.md
+commands: []
+resources:
+  scripts: []
+  references: []
+  assets: []
+capabilities:
+  - analysis
+  - git
+  - shell
+  - http
+constraints:
+  approvalPolicy: standard
+  networkRequired: false
+  requiredBinaries: []
+adapterHints:
+  codex:
+    tier: tier1
+    unsupportedFeatures: []
+  claude:
+    tier: tier1
+    unsupportedFeatures: []
+  cursor:
+    tier: tier1
+    unsupportedFeatures: []
+  copilot:
+    tier: tier2
+    unsupportedFeatures:
+      - Native skill auto-triggering is limited.
