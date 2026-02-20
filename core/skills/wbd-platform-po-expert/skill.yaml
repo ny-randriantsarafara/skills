@@ -7,6 +7,8 @@ triggers:
   - write wbd prd
   - cross repo roadmap slicing
   - define acceptance criteria for wbd feature
+  - multiplex business rule planning
+  - infinity editorial rule validation
 instructions:
   file: prompts/instructions.md
 commands:
